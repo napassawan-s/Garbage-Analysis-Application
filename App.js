@@ -1,26 +1,45 @@
+import React, { useState, useEffect } from 'react';
+import AppLoading from 'expo-app-loading';
+import * as Font from 'expo-font';
 import { StatusBar } from 'expo-status-bar';
 import { StyleSheet, Text, View } from 'react-native';
 import Home from './pages/Home';
+import Result from './pages/Result';
 
-function App() {
 
-  const load = async () => {
-    //Font loading
-    await Font.loadAsync({
-      MontserratThin: require('./assets/fonts/Montserrat-Thin.ttf'),
-      MontserratExtraLight: require('./assets/fonts/Montserrat-ExtraLight.ttf'),
-      MontserratLight: require('./assets/fonts/Montserrat-Light.ttf'),
-      Montserrat: require('./assets/fonts/Montserrat-Regular.ttf'),
-      MontserratMedium: require('./assets/fonts/Montserrat-Medium.ttf'),
-      MontserratSemiBold: require('./assets/fonts/Montserrat-SemiBold.ttf'),
-      MontserratBold: require('./assets/fonts/Montserrat-Bold.ttf'),
-      MontserratExtraBold: require('./assets/fonts/Montserrat-ExtraBold.ttf'),
-      MontserratBlack: require('./assets/fonts/Montserrat-Black.ttf')
-    });
+let customFonts = {
+    'Montserrat-Thin': require('./assets/fonts/Montserrat-Thin.ttf'),
+    'Montserrat-ExtraLight': require('./assets/fonts/Montserrat-ExtraLight.ttf'),
+    'Montserrat-Light': require('./assets/fonts/Montserrat-Light.ttf'),
+    'Montserrat-Regular': require('./assets/fonts/Montserrat-Regular.ttf'),
+    'Montserrat-Medium': require('./assets/fonts/Montserrat-Medium.ttf'),
+    'Montserrat-SemiBold': require('./assets/fonts/Montserrat-SemiBold.ttf'),
+    'Montserrat-Bold': require('./assets/fonts/Montserrat-Bold.ttf'),
+    'Montserrat-ExtraBold': require('./assets/fonts/Montserrat-ExtraBold.ttf'),
+    'Montserrat-Black': require('./assets/fonts/Montserrat-Black.ttf')
+};
+
+export default class App extends React.Component {
+  state = {
+    fontsLoaded: false,
+  };
+
+  async _loadFontsAsync() {
+    await Font.loadAsync(customFonts);
+    this.setState({ fontsLoaded: true });
   }
-  return (
-    <Home />
-  );
-}
 
-export default App;
+  componentDidMount() {
+    this._loadFontsAsync();
+  }
+
+  render() {
+    if (!this.state.fontsLoaded) {
+      return <AppLoading />;
+    }
+
+    return ( 
+        <Result />
+    );
+  }
+}
