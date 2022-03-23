@@ -1,13 +1,13 @@
 import { StyleSheet,View } from 'react-native';
 import { Text } from 'react-native';
-//import { Text } from '../components/Text';
+import ResultPanel from '../components/ResultPanel';
 
-const Home = ({ navigation }) => {
+const Result = ({ navigation }) => {
     return(
         <View style={styles.container}>
-            <Text>Garbage Analysis Application</Text> 
+            <Text style={styles.title}>Garbage Analysis Application</Text> 
+            <ResultPanel />
         </View>
-        
     );
 
 }
@@ -20,8 +20,8 @@ const styles = StyleSheet.create({
     },
 
     title: {
-        fontFamily: 'Montserrat',
+        fontFamily: 'Montserrat-Regular',
     }
   });
 
-export default Home;
+export default Result;
