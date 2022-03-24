@@ -26,7 +26,7 @@ const styles = StyleSheet.create({
 
     title: {
         fontFamily: 'Montserrat-Bold',
-        fontSize: 26
+        fontSize: 20
     },
     button: {
         margin: 30,
@@ -36,9 +36,10 @@ const styles = StyleSheet.create({
         color: 'white',
         width: 200,
         height: 200,
-        borderRadius: 200,
+        borderRadius: 100,
         lineHeight: 200,
-        textAlign: 'center'
+        textAlign: 'center',
+        overflow: 'hidden'
         
     }
   });

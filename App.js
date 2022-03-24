@@ -46,10 +46,10 @@ export default class App extends React.Component {
 
     return (
       <NavigationContainer>
-        <Stack.Navigator>
-          <Stack.Screen name="Home" component={Home} />
-          <Stack.Screen name="SelectPhotos" component={SelectPhotos} />
-          <Stack.Screen name="ShowSelected" component={ShowSelected} />
+        <Stack.Navigator >
+          <Stack.Screen name="Home" component={Home} options={{headerShown: false}} />
+          <Stack.Screen name="SelectPhotos" component={SelectPhotos} options={{title: 'Upload Photos'}} />
+          <Stack.Screen name="ShowSelected" component={ShowSelected} options={{title: 'Selected Photos'}}  />
           <Stack.Screen name="Result" component={Result} />
           <Stack.Screen name="ImgList" component={ImgList} />
         </Stack.Navigator>
