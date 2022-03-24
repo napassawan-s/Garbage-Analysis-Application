@@ -22,36 +22,11 @@ let items = [{
     uri: ['https://reactnative.dev/img/tiny_logo.png', 'https://reactnative.dev/img/tiny_logo.png', 'https://reactnative.dev/img/tiny_logo.png']
 },]
 
-const Result = ({ probs, navigation }) => {
+const ImgList = ({ probs, navigation }) => {
     return (
         <SafeAreaProvider style={styles.container}>
-            {/*<Header
-                containerStyle= {{backgroundColor: 'white', borderBottomWidth: 0,}}
-                leftComponent={ 
-                <Button title="back" color='black'/>
-                }
-                rightComponent={
-                    <Button title="close" color='black'/>
-                }
-                centerComponent={{ text: 'Result', style: styles.heading }}
-            />*/}
             <View>
-                {
-                    items.map((item, index) => {
-                        return (
-
-                            <View key={index}>
-                                <TouchableOpacity onPress={()=>navigation.navigate('ImgList') }>
-                                    <ResultPanel
-                                        key={items.uniqueId}
-                                        data={item} />
-                                </TouchableOpacity>
-
-                            </View>
-
-                        );
-                    })
-                }
+                <Text>IMG LIST</Text>
             </View>
         </SafeAreaProvider>
     );
@@ -80,4 +55,4 @@ const styles = StyleSheet.create({
     }
 });
 
-export default Result;
+export default ImgList;
