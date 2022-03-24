@@ -41,7 +41,7 @@ const Result = ({ probs, navigation }) => {
                         return (
 
                             <View key={index}>
-                                <TouchableOpacity onPress={()=>navigation.navigate('ImgList') }>
+                                <TouchableOpacity onPress={()=>navigation.navigate('ImgList', {pics: item}) }>
                                     <ResultPanel
                                         key={items.uniqueId}
                                         data={item} />

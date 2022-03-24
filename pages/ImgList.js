@@ -1,4 +1,4 @@
-import { StyleSheet, Text, View, Button } from 'react-native';
+import { StyleSheet, Text, View, Button,Image } from 'react-native';
 import ResultPanel from '../components/ResultPanel';
 import { Header } from 'react-native-elements';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
@@ -22,11 +22,27 @@ let items = [{
     uri: ['https://reactnative.dev/img/tiny_logo.png', 'https://reactnative.dev/img/tiny_logo.png', 'https://reactnative.dev/img/tiny_logo.png']
 },]
 
-const ImgList = ({ probs, navigation }) => {
+const ImgList = ({ route, navigation }) => {
+    let photos = route.params.pics;
+    console.log(photos)
     return (
         <SafeAreaProvider style={styles.container}>
-            <View>
-                <Text>IMG LIST</Text>
+            <View style={styles.imgContainer}>
+            {
+                photos['uri'].map((photo, index) => {
+                   return(
+                  
+                    <Image
+                        key={index}
+                        //source={{ uri: photo['uri'] }}
+                        //source={require(uri)}
+                        source = { {uri: photo } }
+                        style={styles.img} />
+    
+                   )
+                   
+                })
+            }
             </View>
         </SafeAreaProvider>
     );
@@ -52,6 +68,22 @@ const styles = StyleSheet.create({
     },
     button: {
         color: 'black'
+    },
+    img: {
+        width: 120,
+        height: 120,
+        margin: 5,
+        alignItems: 'center',
+    },
+    imgContainer: { //not centered yet
+        width: '100%',
+        alignSelf: 'center',
+        marginTop: 10,
+        flexDirection: 'row',
+        flexWrap: 'wrap',
+        alignItems: 'center',
+        textAlign: 'center',
+        alignContent: 'center'
     }
 });
 

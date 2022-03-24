@@ -24,7 +24,7 @@ const ShowSelected = ({ route, navigation }) => {
             }
             </View>
             <View>
-            <TouchableOpacity onPress={() => navigation.navigate('Result', photos)}>
+            <TouchableOpacity onPress={() => navigation.navigate('Result')}>
                 <Text style={styles.button}>Submit</Text>
             </TouchableOpacity>
             </View>
@@ -63,7 +63,7 @@ const styles = StyleSheet.create({
         height: 116,
         margin: 3
     },
-    listContainer: {
+    listContainer: { //not centered yet
         flex:1,
         width: '95%',
         alignSelf: 'center',
