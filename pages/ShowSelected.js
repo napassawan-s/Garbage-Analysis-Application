@@ -3,23 +3,17 @@ import { Text, View, StyleSheet, Alert, Dimensions, TouchableOpacity, Image } fr
 
 const ShowSelected = ({ route, navigation }) => {
     let photos = route.params.photos;
-    console.log(photos)
     return (
         <View style={styles.container}>
            <View style={styles.listContainer}>
             {
                 photos.map((photo, index) => {
                    return(
-                  
                     <Image
                         key={index}
-                        //source={{ uri: photo['uri'] }}
-                        //source={require(uri)}
                         source = { {uri: photo['uri'] } }
                         style={styles.img} />
-    
                    )
-                   
                 })
             }
             </View>

@@ -24,23 +24,17 @@ let items = [{
 
 const ImgList = ({ route, navigation }) => {
     let photos = route.params.pics;
-    console.log(photos)
     return (
         <SafeAreaProvider style={styles.container}>
             <View style={styles.imgContainer}>
             {
                 photos['uri'].map((photo, index) => {
                    return(
-                  
                     <Image
                         key={index}
-                        //source={{ uri: photo['uri'] }}
-                        //source={require(uri)}
                         source = { {uri: photo } }
                         style={styles.img} />
-    
                    )
-                   
                 })
             }
             </View>
