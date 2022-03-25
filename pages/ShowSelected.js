@@ -1,10 +1,14 @@
 import React, { useMemo } from 'react';
-import { Text, View, StyleSheet, Alert, Dimensions, TouchableOpacity, Image } from 'react-native';
+import { Text, View, StyleSheet, Alert, Dimensions, TouchableOpacity, Image, Button } from 'react-native';
 
 let height = Dimensions.get('screen').width * 0.32
 let margin = Dimensions.get('screen').width * 0.0065
 
 const ShowSelected = ({ route, navigation }) => {
+    const callCropPhoto = (photo) => {
+        navigation.navigate('Crop', {photo: photo})
+    };
+    
     let photos = route.params.photos;
     return (
         <View style={styles.container}>
@@ -21,15 +25,24 @@ const ShowSelected = ({ route, navigation }) => {
                 }
             </View>
             <View>
+                <Button
+                    title="Crop"
+                    onPress={() => 
+                        {
+                            Alert.alert(photos[0])
+                            //callCropPhoto(photos[0]['uri'])
+                            navigation.navigate('Crop', {photo: photos[0]['uri']})
+                        }}
+                ></Button>
                 <TouchableOpacity onPress={() => navigation.navigate('Result')}>
                     <Text style={styles.button}>Submit</Text>
                 </TouchableOpacity>
             </View>
-
         </View>
 
     )
 }
+
 const styles = StyleSheet.create({
     container: {
         flex: 1,
