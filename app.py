@@ -14,7 +14,7 @@ from flask import Flask, redirect, url_for, request, render_template
 from werkzeug.utils import secure_filename
 
 app = Flask(__name__)
-model = tf.keras.models.load_model('model/waste.h5')
+model = tf.keras.models.load_model('model/model.hdf5')
 
 def model_predict(img_path,model):
 
@@ -26,29 +26,41 @@ def model_predict(img_path,model):
 
     prediction = ''
 
-    if result[0][0] == 1:
-       prediction = 'recyclable waste'
+    if result[0][0] == 0:
+       prediction = 'Glass'
+    elif result[0][0] == 1:
+      prediction = 'Metal'
+    elif result[0][0] == 2:
+      prediction = 'Paper'
     else:
-      prediction = 'organic waste'
-
+      prediction = 'Plastic'
     return prediction
 
 @app.route('/',methods=['GET'])
 def index():
     # Main page
-    return "Hello World"
+    return ''
+
+@app.route("/send", methods=["POST"], strict_slashes=False)
+def add_articles():
+    return request
 
 @app.route('/predict', methods=['GET','POST'])
 def upload():
     if request.method == 'POST':
-        # Get the file from post request
+        # Get each pic from recieved JSON
         f = request.files['file']
 
-        #save the file ./uploads
+        #save the file ./uploads (?)
         basepath = os.path.dirname(__file__)
         file_path = os.path.join(basepath,'uploads',secure_filename(f.filename))
         f.save(file_path)
 
+        # have to loop each photo then store class, image (base64,uri), original height, original width as JSON in array format =>
+        # { uniqueId: 'Glass',
+        # title: 'Glass',
+        # pic: [{width: 200, height: 300, uri:"", base64: }]
+        # }
         # make prediction
         preds = model_predict(file_path,model)
 
@@ -61,5 +73,5 @@ if __name__ == '__main__':
     
     #app.run(host="192.168.29.186", port=800, debug=False)
 
-    app.run()
+    app.run(port=5000)
 

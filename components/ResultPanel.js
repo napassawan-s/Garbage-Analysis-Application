@@ -19,11 +19,11 @@ const ResultPanel = (props, { navigation }) => {
                 <Card.Divider />
                 <View style={styles.imgContainer}>
                     {
-                        props.data['uri'].map((pic, index) => {
+                        props.data['pic'].map((pic, index) => {
                             return (
                                 <Image
                                     key={index}
-                                    source={{ uri: pic }}
+                                    source={{ uri: pic['uri'] }}
                                     style={styles.img}
                                 />
                             );
@@ -40,7 +40,7 @@ const styles = StyleSheet.create({
     },
     cardTitle: {
         textAlign: 'left',
-        fontFamily: 'San Francisco',
+        fontFamily: 'Montserrat-Bold',
         fontWeight: 'normal',
         fontSize: 17
     },

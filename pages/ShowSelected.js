@@ -1,15 +1,35 @@
 import React, { useMemo } from 'react';
 import { Text, View, StyleSheet, Alert, Dimensions, TouchableOpacity, Image, Button } from 'react-native';
+import APIServices from '../components/APIServices'
 
 let height = Dimensions.get('screen').width * 0.32
 let margin = Dimensions.get('screen').width * 0.0065
 
-const ShowSelected = ({ route, navigation }) => {
+const ShowSelected = ({ route,props,  navigation }) => {
     const callCropPhoto = (photo) => {
         navigation.navigate('Crop', {photo: photo})
     };
     
     let photos = route.params.photos;
+
+    uriToBase64 = async (uri) => {
+        let base64 = await FS.readAsStringAsync(uri, {
+            encoding: FS.EncodingType.Base64,
+        });
+        return base64;
+    };
+
+    const insertArticle = () => {
+        photos.map((photo) => {
+            photo['uri'] = uriToBase64(photo['uri'])
+        })
+        APIServices.InsertArticle(photos)
+            .then((response) => navigation.navigate('Result', response))
+            .catch(error => console.log('error', error))
+
+        
+    }
+
     return (
         <View style={styles.container}>
             <View style={styles.listContainer}>
@@ -34,6 +54,8 @@ const ShowSelected = ({ route, navigation }) => {
                             navigation.navigate('Crop', {photo: photos[0]['uri']})
                         }}
                 ></Button>
+                {//<TouchableOpacity onPress={() => { insertArticle }}>
+                }
                 <TouchableOpacity onPress={() => navigation.navigate('Result')}>
                     <Text style={styles.button}>Submit</Text>
                 </TouchableOpacity>
@@ -58,7 +80,7 @@ const styles = StyleSheet.create({
     button: {
         margin: 30,
         backgroundColor: '#67E0B4',
-        fontFamily: 'Montserrat-Bold',
+        fontFamily: 'Montserrat-Medium',
         fontSize: 17,
         color: 'white',
         width: 300,

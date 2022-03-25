@@ -1,8 +1,5 @@
 import { StyleSheet,View, TouchableOpacity } from 'react-native';
 import { Text } from 'react-native';
-import { Button } from 'react-native-elements';
-import { color } from 'react-native-elements/dist/helpers';
-//import { Text } from '../components/Text';
 
 const Home = ({ navigation }) => {
     return(
@@ -11,8 +8,7 @@ const Home = ({ navigation }) => {
             <TouchableOpacity onPress={() => navigation.navigate('SelectPhotos') }>
                 <Text style={styles.button} >Upload</Text>
             </TouchableOpacity>
-        </View>
-        
+        </View>      
     );
 
 }
@@ -25,14 +21,14 @@ const styles = StyleSheet.create({
     },
 
     title: {
-        fontFamily: 'San Francisco',
+        fontFamily: 'Montserrat-Bold',
         fontSize: 20,
         fontWeight: 'bold'
     },
     button: {
         margin: 30,
         backgroundColor: '#67E0B4',
-        fontFamily: 'San Francisco',
+        fontFamily: 'Montserrat-Medium',
         fontSize: 17,
         color: 'white',
         width: 200,

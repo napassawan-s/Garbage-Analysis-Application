@@ -3,7 +3,6 @@ import { SafeAreaProvider } from 'react-native-safe-area-context';
 import { TouchableOpacity } from 'react-native-gesture-handler';
 
 let width = Dimensions.get('screen').width *0.32
-let height = Dimensions.get('screen').width * 0.32
 let margin = Dimensions.get('screen').width * 0.0065
 
 const ImgList = ({ route, navigation }) => {
@@ -12,12 +11,12 @@ const ImgList = ({ route, navigation }) => {
         <SafeAreaProvider style={styles.container}>
             <View style={styles.imgContainer}>
                 {
-                    photos['uri'].map((photo, index) => {
+                    photos['pic'].map((photo, index) => {
                         return (
-                            <TouchableOpacity key={index} onPress={()=>navigation.navigate('Enlarge', {pic: photo})}>
+                            <TouchableOpacity key={index} onPress={()=>navigation.navigate('Enlarge', {pic: photo['uri']})}>
                                 <Image
                                     
-                                    source={{ uri: photo }}
+                                    source={{ uri: photo['uri'] }}
                                     style={styles.img} />
                             </TouchableOpacity>
 
@@ -52,10 +51,10 @@ const styles = StyleSheet.create({
     },
     img: {
         width: width,
-        height: height,
+        height: width,
         margin: margin,
     },
-    imgContainer: { //not centered yet
+    imgContainer: { 
         width: '100%',
         alignSelf: 'center',
         marginTop: 10,
