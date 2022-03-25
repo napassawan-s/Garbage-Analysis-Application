@@ -1,28 +1,31 @@
 import React, { useMemo } from 'react';
 import { Text, View, StyleSheet, Alert, Dimensions, TouchableOpacity, Image } from 'react-native';
 
+let height = Dimensions.get('screen').width * 0.32
+let margin = Dimensions.get('screen').width * 0.0065
+
 const ShowSelected = ({ route, navigation }) => {
     let photos = route.params.photos;
     return (
         <View style={styles.container}>
-           <View style={styles.listContainer}>
-            {
-                photos.map((photo, index) => {
-                   return(
-                    <Image
-                        key={index}
-                        source = { {uri: photo['uri'] } }
-                        style={styles.img} />
-                   )
-                })
-            }
+            <View style={styles.listContainer}>
+                {
+                    photos.map((photo, index) => {
+                        return (
+                            <Image
+                                key={index}
+                                source={{ uri: photo['uri'] }}
+                                style={styles.img} />
+                        )
+                    })
+                }
             </View>
             <View>
-            <TouchableOpacity onPress={() => navigation.navigate('Result')}>
-                <Text style={styles.button}>Submit</Text>
-            </TouchableOpacity>
+                <TouchableOpacity onPress={() => navigation.navigate('Result')}>
+                    <Text style={styles.button}>Submit</Text>
+                </TouchableOpacity>
             </View>
-           
+
         </View>
 
     )
@@ -31,6 +34,8 @@ const styles = StyleSheet.create({
     container: {
         flex: 1,
         backgroundColor: '#fff',
+        alignItems: 'center',
+        height: '100%'
     },
 
     title: {
@@ -50,22 +55,21 @@ const styles = StyleSheet.create({
         textAlign: 'center',
         overflow: 'hidden',
         marginBottom: 50,
-        alignSelf:'center'
+        alignSelf: 'center'
     },
     img: {
-        width: 116,
-        height: 116,
-        margin: 3
+        width: '32%',
+        height: height,
+        margin: margin,
     },
-    listContainer: { //not centered yet
-        flex:1,
-        width: '95%',
+    listContainer: {
+        flex: 1,
+        width: '100%',
         alignSelf: 'center',
-        marginTop: 10,
+        marginTop: 3,
         flexDirection: 'row',
         flexWrap: 'wrap',
         alignItems: 'center',
-        textAlign: 'center'
     }
 });
 

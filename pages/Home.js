@@ -25,13 +25,14 @@ const styles = StyleSheet.create({
     },
 
     title: {
-        fontFamily: 'Montserrat-Bold',
-        fontSize: 20
+        fontFamily: 'San Francisco',
+        fontSize: 20,
+        fontWeight: 'bold'
     },
     button: {
         margin: 30,
         backgroundColor: '#67E0B4',
-        fontFamily: 'Montserrat-Bold',
+        fontFamily: 'San Francisco',
         fontSize: 17,
         color: 'white',
         width: 200,

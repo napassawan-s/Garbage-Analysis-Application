@@ -1,26 +1,26 @@
 import { StyleSheet, Text, View, Button } from 'react-native';
 import ResultPanel from '../components/ResultPanel';
-import { Header } from 'react-native-elements';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
 import { TouchableOpacity } from 'react-native-gesture-handler';
 
 let items = [{
     uniqueId: 'Glass',
     title: 'Glass',
-    uri: ['https://reactnative.dev/img/tiny_logo.png', 'https://reactnative.dev/img/tiny_logo.png', 'https://reactnative.dev/img/tiny_logo.png']
+    uri: ['https://picsum.photos/id/237/400/300', 'https://picsum.photos/id/27/200/300', 'https://picsum.photos/id/17/200/300']
 }, {
     uniqueId: 'Metal',
     title: 'Metal',
-    uri: ['https://reactnative.dev/img/tiny_logo.png', 'https://reactnative.dev/img/tiny_logo.png', 'https://reactnative.dev/img/tiny_logo.png']
+    uri: ['https://picsum.photos/id/127/200/300', 'https://picsum.photos/id/23/200/300', 'https://picsum.photos/id/37/200/300']
 }, {
     uniqueId: 'Paper',
     title: 'Paper',
-    uri: ['https://reactnative.dev/img/tiny_logo.png', 'https://reactnative.dev/img/tiny_logo.png', 'https://reactnative.dev/img/tiny_logo.png']
+    uri: ['https://picsum.photos/id/372/200/300', 'https://picsum.photos/id/7/200/300', 'https://picsum.photos/id/3/200/300']
 }, {
     uniqueId: 'Plastic',
     title: 'Plastic',
-    uri: ['https://reactnative.dev/img/tiny_logo.png', 'https://reactnative.dev/img/tiny_logo.png', 'https://reactnative.dev/img/tiny_logo.png']
+    uri: ['https://picsum.photos/id/3/200/300', 'https://picsum.photos/id/72/200/300', 'https://picsum.photos/id/723/200/300']
 },]
+
 
 const Result = ({ probs, navigation }) => {
     return (
@@ -39,7 +39,6 @@ const Result = ({ probs, navigation }) => {
                 {
                     items.map((item, index) => {
                         return (
-
                             <View key={index}>
                                 <TouchableOpacity onPress={()=>navigation.navigate('ImgList', {pics: item}) }>
                                     <ResultPanel

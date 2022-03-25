@@ -4,6 +4,7 @@ import { AssetsSelector } from 'expo-images-picker';
 import { Ionicons } from '@expo/vector-icons';
 import { MediaType } from 'expo-media-library';
 import { SaveType } from 'expo-images-picker/src/Types';
+import { SafeAreaProvider } from 'react-native-safe-area-context';
 
 const SelectPhotos = ({ navigation }) => {
     const ForceInset = {
@@ -38,8 +39,8 @@ const SelectPhotos = ({ navigation }) => {
       assetsType: [MediaType.photo],
       minSelection: 1,
       maxSelection: 10,
-      portraitCols: 4,
-      landscapeCols: 4,
+      portraitCols: 3,
+      landscapeCols: 3,
     }),
     []
   );
@@ -73,7 +74,7 @@ const SelectPhotos = ({ navigation }) => {
       minSelection: 1,
       buttonTextStyle: _textStyle,
       buttonStyle: _buttonStyle,
-      onBack: () => {},
+      onBack: () => {navigation.navigate('Home')},
       onSuccess: (e) => onSuccess(e),
     }),
     []
@@ -103,7 +104,8 @@ const SelectPhotos = ({ navigation }) => {
   );
 
   return (
-        <View style={styles.container}>
+    <SafeAreaProvider style ={styles.container}>
+ <View style={styles.selectorContainer}>
           <AssetsSelector
             Settings={widgetSettings}
             Errors={widgetErrors}
@@ -112,6 +114,8 @@ const SelectPhotos = ({ navigation }) => {
             Resize={widgetResize} 
           />
         </View>
+    </SafeAreaProvider>
+       
   );
 }
 
@@ -119,9 +123,12 @@ const {height} = Dimensions.get('window');
 
 const styles = StyleSheet.create({
   container: {
-    marginTop: height*0.04,  
-    flex: 1,
+    backgroundColor: '#fff'
   },
+  selectorContainer: {
+    marginTop: height*0.04,  
+    flex: 1
+  }
 });
 
 export default SelectPhotos;

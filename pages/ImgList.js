@@ -1,42 +1,29 @@
-import { StyleSheet, Text, View, Button,Image } from 'react-native';
-import ResultPanel from '../components/ResultPanel';
-import { Header } from 'react-native-elements';
+import { StyleSheet, Text, View, Button, Image, Dimensions } from 'react-native';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
 import { TouchableOpacity } from 'react-native-gesture-handler';
 
-let items = [{
-    uniqueId: 'Glass',
-    title: 'Glass',
-    uri: ['https://reactnative.dev/img/tiny_logo.png', 'https://reactnative.dev/img/tiny_logo.png', 'https://reactnative.dev/img/tiny_logo.png']
-}, {
-    uniqueId: 'Metal',
-    title: 'Metal',
-    uri: ['https://reactnative.dev/img/tiny_logo.png', 'https://reactnative.dev/img/tiny_logo.png', 'https://reactnative.dev/img/tiny_logo.png']
-}, {
-    uniqueId: 'Paper',
-    title: 'Paper',
-    uri: ['https://reactnative.dev/img/tiny_logo.png', 'https://reactnative.dev/img/tiny_logo.png', 'https://reactnative.dev/img/tiny_logo.png']
-}, {
-    uniqueId: 'Plastic',
-    title: 'Plastic',
-    uri: ['https://reactnative.dev/img/tiny_logo.png', 'https://reactnative.dev/img/tiny_logo.png', 'https://reactnative.dev/img/tiny_logo.png']
-},]
+let width = Dimensions.get('screen').width *0.32
+let height = Dimensions.get('screen').width * 0.32
+let margin = Dimensions.get('screen').width * 0.0065
 
 const ImgList = ({ route, navigation }) => {
     let photos = route.params.pics;
     return (
         <SafeAreaProvider style={styles.container}>
             <View style={styles.imgContainer}>
-            {
-                photos['uri'].map((photo, index) => {
-                   return(
-                    <Image
-                        key={index}
-                        source = { {uri: photo } }
-                        style={styles.img} />
-                   )
-                })
-            }
+                {
+                    photos['uri'].map((photo, index) => {
+                        return (
+                            <TouchableOpacity key={index} onPress={()=>navigation.navigate('Enlarge', {pic: photo})}>
+                                <Image
+                                    
+                                    source={{ uri: photo }}
+                                    style={styles.img} />
+                            </TouchableOpacity>
+
+                        )
+                    })
+                }
             </View>
         </SafeAreaProvider>
     );
@@ -64,10 +51,9 @@ const styles = StyleSheet.create({
         color: 'black'
     },
     img: {
-        width: 120,
-        height: 120,
-        margin: 5,
-        alignItems: 'center',
+        width: width,
+        height: height,
+        margin: margin,
     },
     imgContainer: { //not centered yet
         width: '100%',
@@ -75,9 +61,6 @@ const styles = StyleSheet.create({
         marginTop: 10,
         flexDirection: 'row',
         flexWrap: 'wrap',
-        alignItems: 'center',
-        textAlign: 'center',
-        alignContent: 'center'
     }
 });
 

@@ -2,16 +2,16 @@ import React from 'react';
 import { Card, Header } from 'react-native-elements';
 import { Text, View, StyleSheet, Image } from 'react-native';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
-//import { Text } from './Text';
 
 const ResultPanel = (props, { navigation }) => {
     return (
         
             <Card containerStyle={{
-                width: '95%', backgroundColor: 'white',
+                width: '97%', backgroundColor: 'white',
                 borderWidth: 0,
                 shadowColor: 'white',
-                justifyContent: 'center'
+                justifyContent: 'center',
+                alignSelf: 'center'
 
             }}
             >
@@ -40,13 +40,15 @@ const styles = StyleSheet.create({
     },
     cardTitle: {
         textAlign: 'left',
-        fontFamily: 'Montserrat-Bold',
+        fontFamily: 'San Francisco',
+        fontWeight: 'normal',
         fontSize: 17
     },
     img: {
-        width: 50,
-        height: 50,
-        margin: 4
+        width: 65,
+        height: 65,
+        margin: 2,
+        resizeMode: 'cover'
     },
     imgContainer: {
         flexDirection: 'row',
