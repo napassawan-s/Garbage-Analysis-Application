@@ -6,18 +6,14 @@ let height = Dimensions.get('screen').width * 0.32
 let margin = Dimensions.get('screen').width * 0.0065
 
 const ShowSelected = ({ route,props,  navigation }) => {
-    const callCropPhoto = (photo) => {
-        navigation.navigate('Crop', {photo: photo})
-    };
-    
     let photos = route.params.photos;
 
-    uriToBase64 = async (uri) => {
+    /*uriToBase64 = async (uri) => {
         let base64 = await FS.readAsStringAsync(uri, {
             encoding: FS.EncodingType.Base64,
         });
         return base64;
-    };
+    };*/
 
     const insertArticle = () => {
         photos.map((photo) => {
@@ -49,9 +45,8 @@ const ShowSelected = ({ route,props,  navigation }) => {
                     title="Crop"
                     onPress={() => 
                         {
-                            Alert.alert(photos[0])
-                            //callCropPhoto(photos[0]['uri'])
-                            navigation.navigate('Crop', {photo: photos[0]['uri']})
+                            console.log(photos[0].uri)
+                            navigation.navigate('Crop', {photo: photos[0].uri})
                         }}
                 ></Button>
                 {//<TouchableOpacity onPress={() => { insertArticle }}>

@@ -1,60 +1,48 @@
+import { View, Image, Button } from 'react-native';
 import { ImageEditor } from "expo-image-editor";
+import { useState } from 'react';
+import React from 'react';
 
-const Crop = ({ photo }) => {
-  /*const [imageUri, setImageUri] = useState(undefined);
 
-  const [editorVisible, setEditorVisible] = useState(false);
+const Crop = ({ navigation, route }) => {
+    let photo = route.params.photo;
+    console.log(photo)
+    const [imageUri, setImageUri] = useState(undefined);
+    const [editorVisible, setEditorVisible] = useState(false);
 
-  const selectPhoto = async () => {
-    // Get the permission to access the camera roll
-    const response = await ImagePicker.requestCameraRollPermissionsAsync();
-    // If they said yes then launch the image picker
-    if (response.granted) {
-      const pickerResult = await ImagePicker.launchImageLibraryAsync();
-      // Check they didn't cancel the picking
-      if (!pickerResult.cancelled) {
-        launchEditor(pickerResult.uri);
-      }
-    } else {
-      // If not then alert the user they need to enable it
-      Alert.alert(
-        "Please enable camera roll permissions for this app in your settings."
-      );
-    }
-  };*/
-  let cropped = '';
-  setEditorVisible(true);
+    const selectPhoto = async () => {
+        launchEditor(photo);
+    };
 
-  const launchEditor = (uri) => {
-    // Then set the image uri
-    setImageUri(uri);
-    // And set the image editor to be visible
-    setEditorVisible(true);
-  };
+    const launchEditor = (uri) => {
+        setImageUri(uri);
+        setEditorVisible(true);
+    };
 
-  return (
-    <View>
-      <Image
-        style={{ height: 300, width: 300 }}
-        source={{ uri: imageData.uri }}
-      />
-      <ImageEditor
-        visible={true}
-        onCloseEditor={() => navigation.navigate('ShowSelected', {result: cropped})}
-        imageUri={photo}
-        fixedCropAspectRatio={16 / 9}
-        lockAspectRatio={aspectLock}
-        minimumCropDimensions={{
-          width: 100,
-          height: 100,
-        }}
-        onEditingComplete={(result) => {
-          cropped = result;
-        }}
-        mode="full"
-      />
-    </View>
-  );
+    return (
+        <View>
+        <Image
+            style={{ height: 300, width: 300 }}
+            source={{ uri: photo }}
+        />
+        <Button title="Select Photo" onPress={() => selectPhoto()} />
+        <ImageEditor
+            visible={editorVisible}
+            onCloseEditor={() => setEditorVisible(false)}
+            imageUri={imageUri}
+            fixedCropAspectRatio={16 / 9}
+            lockAspectRatio={false}
+            minimumCropDimensions={{
+                width: 100,
+                height: 100,
+            }}
+            onEditingComplete={(result) => {
+                console.log(result);
+                }}
+            mode="full"
+        />
+        </View>
+    );
 }
 
 export default Crop;
