@@ -5,8 +5,9 @@ import glob
 import re
 from urllib import response
 import numpy as np
-import logging
 import json
+import base64
+from PIL import Image
 
 # tensorflow
 import tensorflow as tf
@@ -17,25 +18,45 @@ from flask import Flask, redirect, url_for, request, render_template
 from werkzeug.utils import secure_filename
 
 app = Flask(__name__)
-#model = tf.keras.models.load_model('model/84866.hdf5')
+model = tf.keras.models.load_model('model/84866.hdf5')
 
-def model_predict(img_path,model):
+def model_predict(imgBase64,model):
 
-  #decoded = tf.io.decode_base64(imgBase64)
+    decoded = base64.b64decode(imgBase64)
+    image = tf.io.decode_image(decoded, channels=3)
+    image = tf.image.resize(image, 
+                        method="bilinear", 
+                        size=(180,180))
+
+    input_array = np.array(image) 
+    input_array[0][0]
+    #fh = open(decoded, 'rb')
+    #img = Image.open(fh)
     img_path = 'Metal_0.jpg'
-    img = image.load_img(img_path,target_size=(180,180))
+    #img = image.load_img(decoded,target_size=(180,180))
     #Preprocessing the image
-    x=image.img_to_array(img)
-    x=np.expand_dims(x,axis=0)
-    result = model.predict(x)
-    print('this is result jaaaaa ', result)
-    prediction = ''
+    #x=image.img_to_array(img)
+    #x=np.expand_dims(x,axis=0)
+    pred = np.expand_dims(input_array, axis=0)
+    results = model.predict(pred)
+    print('this is result jaaaaa ', results)
+    prediction = 0
+    conv_preds = []
+    for result in enumerate(results): 
+      print(result[1])
+      max=np.amax(result[1])
 
-    if result[0][0] == 1:
+    for x in enumerate(result[1]):
+      print(x)
+      if np.allclose(x[1],max):
+        prediction = x[0]
+    
+
+    if prediction == 0:
        prediction = 'Glass'
-    elif result[0][1] == 1:
+    elif prediction == 1:
       prediction = 'Metal'
-    elif result[0][2] == 1:
+    elif prediction == 2:
       prediction = 'Paper'
     else:
       prediction = 'Plastic'
