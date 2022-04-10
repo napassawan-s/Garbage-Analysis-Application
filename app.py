@@ -39,9 +39,8 @@ def model_predict(imgBase64,model):
     #x=np.expand_dims(x,axis=0)
     pred = np.expand_dims(input_array, axis=0)
     results = model.predict(pred)
-    print('this is result jaaaaa ', results)
+    print('result', results)
     prediction = 0
-    conv_preds = []
     for result in enumerate(results): 
       print(result[1])
       max=np.amax(result[1])
@@ -60,6 +59,8 @@ def model_predict(imgBase64,model):
       prediction = 'Paper'
     else:
       prediction = 'Plastic'
+
+    print('prediction ', prediction)
     return prediction
 
 @app.route('/',methods=['GET'])
@@ -94,11 +95,9 @@ def upload():
       request_data = request.get_json()
       for items in request_data:
           preds = model_predict(items['base64'],model)
-          
-          #className = 0
-          #convert predict result to 0,1,2,3 return in class val
-
-          response[preds]['pic'].append({'width': items['width'], 'height': items['height'], 'uri': items['uri'] })
+          for i in response:
+            if i['title'] == preds:
+              i['pic'].append({'width': items['width'], 'height': items['height'], 'uri': items['uri'] })
         
         # have to loop each photo then store class, image (base64,uri), original height, original width as JSON in array format =>
         # { uniqueId: 'Glass',
