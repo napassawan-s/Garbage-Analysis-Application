@@ -48,7 +48,7 @@ const SelectPhotos = ({ navigation }) => {
   const widgetResize = useMemo(
     () => ({
       compress: 0.7,
-      base64: false,
+      base64: true,
       saveTo: SaveType.JPG,
     }),
     []

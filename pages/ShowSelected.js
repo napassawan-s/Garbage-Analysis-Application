@@ -7,6 +7,23 @@ let margin = Dimensions.get('screen').width * 0.0065
 
 const ShowSelected = ({ route,props,  navigation }) => {
     let photos = route.params.photos;
+    let items = [{
+        uniqueId: 'Glass',
+        title: 'Glass',
+        pic: [{width: 200,height: 300,uri:'https://picsum.photos/id/237/400/300'}]
+    }, {
+        uniqueId: 'Metal',
+        title: 'Metal',
+        pic: [{width: 200,height: 300,uri:'https://picsum.photos/id/237/400/300'}]
+    }, {
+        uniqueId: 'Paper',
+        title: 'Paper',
+        pic: [{width: 200,height: 300,uri:'https://picsum.photos/id/237/400/300'}]
+    }, {
+        uniqueId: 'Plastic',
+        title: 'Plastic',
+        pic: [{width: 200,height: 300,uri:'https://picsum.photos/id/237/400/300'}]
+    },]
 
     /*uriToBase64 = async (uri) => {
         let base64 = await FS.readAsStringAsync(uri, {
@@ -15,12 +32,15 @@ const ShowSelected = ({ route,props,  navigation }) => {
         return base64;
     };*/
 
-    const insertArticle = () => {
-        photos.map((photo) => {
+    const predict = () => {
+        /*photos.map((photo) => {
             photo['uri'] = uriToBase64(photo['uri'])
-        })
+        })*/
         APIServices.InsertArticle(photos)
-            .then((response) => navigation.navigate('Result', response))
+            .then((response) => {
+                console.log(response)
+                navigation.navigate('Result', {result:response})
+            })
             .catch(error => console.log('error', error))
 
         
@@ -51,6 +71,9 @@ const ShowSelected = ({ route,props,  navigation }) => {
                 ></Button>
                 {//<TouchableOpacity onPress={() => { insertArticle }}>
                 }
+                <TouchableOpacity onPress={() => {predict()}}>
+                    <Text style={styles.button}>Test send data to server</Text>
+                </TouchableOpacity>
                 <TouchableOpacity onPress={() => navigation.navigate('Result')}>
                     <Text style={styles.button}>Submit</Text>
                 </TouchableOpacity>
