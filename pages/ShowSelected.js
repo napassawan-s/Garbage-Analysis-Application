@@ -1,6 +1,12 @@
 import React, { useMemo } from 'react';
 import { Text, View, StyleSheet, Alert, Dimensions, TouchableOpacity, Image, Button } from 'react-native';
 import APIServices from '../components/APIServices'
+import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
+import { ImageEditor } from "expo-image-editor";
+import { useState } from 'react';
+
+const BUTTON_SIZE = 30
+const BORDER_WIDTH = 1
 
 let height = Dimensions.get('screen').width * 0.32
 let margin = Dimensions.get('screen').width * 0.0065
@@ -46,29 +52,71 @@ const ShowSelected = ({ route,props,  navigation }) => {
         
     }
 
+    const [imageUri, setImageUri] = useState(undefined);
+    const [editorVisible, setEditorVisible] = useState(false);
+
+    const selectPhoto = async (photo) => {
+        launchEditor(photo);
+    };
+
+    const launchEditor = (uri) => {
+        setImageUri(uri);
+        setEditorVisible(true);
+    };
+
+    const insertCropped = (oguri,cropped) => {
+        photos.forEach((photo) => {
+            if(oguri == photo['uri']) {
+                photo['uri'] = cropped
+                console.log('replaced')
+            }
+
+        })
+    }
+
     return (
         <View style={styles.container}>
             <View style={styles.listContainer}>
                 {
                     photos.map((photo, index) => {
                         return (
-                            <Image
+                            <View style={styles.item}>
+                                <Image
                                 key={index}
                                 source={{ uri: photo['uri'] }}
                                 style={styles.img} />
+                                <TouchableOpacity onPress={() => 
+                                {
+                                    selectPhoto(photo['uri'])
+                                }} 
+                                style={styles.cropbutton}>
+                                    <Icon name={'crop'} color={'grey'} size={BUTTON_SIZE/2} />
+                                </TouchableOpacity>
+                            </View>
+                            
                         )
                     })
                 }
             </View>
             <View>
-                <Button
-                    title="Crop"
-                    onPress={() => 
-                        {
-                            console.log(photos[0].uri)
-                            navigation.navigate('Crop', {photo: photos[0].uri})
-                        }}
-                ></Button>
+                <ImageEditor
+                visible={editorVisible}
+                onCloseEditor={() => setEditorVisible(false)}
+                imageUri={imageUri}
+                fixedCropAspectRatio={16 / 9}
+                lockAspectRatio={false}
+                minimumCropDimensions={{
+                    width: 100,
+                    height: 100,
+                }}
+                onEditingComplete={(result) => {
+                    console.log('result: '+result['uri'])
+                    console.log('og: '+imageUri)
+                    insertCropped(imageUri, result['uri'])
+                    console.log('done cropping eiei')
+                }}
+                mode="crop-only"
+                />
                 {//<TouchableOpacity onPress={() => { insertArticle }}>
                 }
                 <TouchableOpacity onPress={() => {predict()}}>
@@ -111,18 +159,32 @@ const styles = StyleSheet.create({
         alignSelf: 'center'
     },
     img: {
-        width: '32%',
         height: height,
-        margin: margin,
+        
     },
     listContainer: {
         flex: 1,
-        width: '100%',
         alignSelf: 'center',
         marginTop: 3,
         flexDirection: 'row',
         flexWrap: 'wrap',
         alignItems: 'center',
+        width: '100%'
+    },
+    item: {
+        width: '32%',
+        margin: margin,
+    },
+    cropbutton:{
+        justifyContent:'center',
+        position: 'absolute',
+        alignItems:'center',
+        backgroundColor: 'white',
+        borderColor: 'transparent',
+        width:BUTTON_SIZE+BORDER_WIDTH,
+        height:BUTTON_SIZE+BORDER_WIDTH,
+        borderWidth:BORDER_WIDTH,
+        borderRadius:BUTTON_SIZE/2,
     }
 });
 

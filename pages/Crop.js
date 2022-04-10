@@ -25,7 +25,7 @@ const Crop = ({ navigation, route }) => {
             style={{ height: 300, width: 300 }}
             source={{ uri: photo }}
         />
-        <Button title="Select Photo" onPress={() => selectPhoto()} />
+        <Button title="Crop" onPress={() => selectPhoto()} />
         <ImageEditor
             visible={editorVisible}
             onCloseEditor={() => setEditorVisible(false)}
@@ -38,8 +38,9 @@ const Crop = ({ navigation, route }) => {
             }}
             onEditingComplete={(result) => {
                 console.log(result);
+                navigation.navigate('ShowSelected', {cropped: result})
                 }}
-            mode="full"
+            mode="crop-only"
         />
         </View>
     );
