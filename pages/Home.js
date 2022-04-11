@@ -8,6 +8,9 @@ const Home = ({ navigation }) => {
             <TouchableOpacity onPress={() => navigation.navigate('SelectPhotos') }>
                 <Text style={styles.button} >Upload</Text>
             </TouchableOpacity>
+            <TouchableOpacity onPress={() => navigation.navigate('TakePhoto') }>
+                <Text style={styles.button} >Camera</Text>
+            </TouchableOpacity>
         </View>      
     );
 
