@@ -50,12 +50,12 @@ const TakePhoto = ({ navigation }) => {
             }}>
                 <Text style={styles.text}> Back </Text>
             </TouchableOpacity>
-            <TouchableOpacity style={styles.button} onPress={() => {
+            <TouchableOpacity style={styles.snapbutton} onPress={() => {
                 takePicture()
                 //console.log(uri)
                 //console.log(base64)
             }}>
-                <Text style={styles.text}> Snap bish </Text>
+                <Text style={styles.text}> Snap </Text>
             </TouchableOpacity>
             <TouchableOpacity
                 style={styles.backbutton}
@@ -86,12 +86,13 @@ const styles = StyleSheet.create({
     backgroundColor: 'transparent',
     flexDirection: 'row',
     margin: 20,
-    marginTop: '15%',
+    marginTop: '12%',
   },
-  button: {
-    alignSelf: 'flex-start',
+  snapbutton: {
+    alignSelf: 'flex-end',
     alignItems: 'center',
     width: '50%',
+    marginBottom: '10%'
   },
   backbutton: {
     alignSelf: 'flex-start',
