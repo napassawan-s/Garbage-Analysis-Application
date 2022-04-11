@@ -1,11 +1,10 @@
-import React, { useMemo } from 'react';
-import { Text, View, StyleSheet, Alert, Dimensions, TouchableOpacity, Image, Button } from 'react-native';
+import React from 'react';
+import { Text, View, StyleSheet, Dimensions, TouchableOpacity, Image } from 'react-native';
 import APIServices from '../components/APIServices'
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import { ImageEditor } from "expo-image-editor";
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import * as FS from 'expo-file-system';
-//import { ImageManipulator } from 'expo';
 
 
 const BUTTON_SIZE = 30
@@ -20,7 +19,6 @@ const ShowSelected = ({ route,props,  navigation }) => {
 
     const [imageUri, setImageUri] = useState(undefined);
     const [editorVisible, setEditorVisible] = useState(false);
-    const [croppedUri, setCroppedUri] = useState('');
 
     let items = [{
         uniqueId: 'Glass',
@@ -40,26 +38,7 @@ const ShowSelected = ({ route,props,  navigation }) => {
         pic: [{width: 200,height: 300,uri:'https://picsum.photos/id/237/400/300'}]
     },]
 
-    const uriToBase64 = async (original,uri) => {
-        let base64 = await FS.readAsStringAsync(uri, {
-            encoding: FS.EncodingType.Base64,
-        });
-        //setCroppedUri(base64);
-        //setUri(original,base64)
-        croppedB64 = base64;
-        console.log(croppedB64)
-    };
-
-    /*const toBase64 = async (uri) => {
-        let response = await ImageManipulator.manipulateAsync(uri, [], { base64: true })
-        console.log('base64res' + JSON.stringify(response));
-        return response;
-    }*/
-
     const predict = () => {
-        /*photos.map((photo) => {
-            photo['uri'] = uriToBase64(photo['uri'])
-        })*/
         APIServices.InsertArticle(photos)
             .then((response) => {
                 console.log(response)
@@ -83,44 +62,22 @@ const ShowSelected = ({ route,props,  navigation }) => {
         photos.forEach(async (photo) => {
             if(originalUri == photo['uri']) {
                 photo['uri'] = cropped
-                //console.log('replaced')
-                console.log('uri ja  '+originalUri+'\n\nbase ja   '+JSON.stringify(photo['base64']))
-                //console.log(cropped)
                 let base64 = await FS.readAsStringAsync(cropped, {
                     encoding: FS.EncodingType.Base64,
                 });
-                //uriToBase64(originalUri,cropped)
                 photo['base64'] = base64
-                console.log('base64res' + JSON.stringify(photo['base64']));
-                //console.log('\nbase ja2  '+JSON.stringify(photo['base64']))
-                /*console.log('changed base ja')
-                console.log(photo['base64'])*/
             }
         })
     }
 
-    /*useEffect(() => {
-        console.log('god');
-    }, [croppedUri]);
-
-    const setUri = (originalUri) => {
-        photos.forEach((photo) => {
-            if(originalUri == photo['uri']) {
-                photo['base64'] = croppedUri
-                console.log('cropped uri'+croppedUri)
-            }
-        })
-    }*/
-
     return (
         <View style={styles.container}>
             <View style={styles.listContainer}>
-                {
+                {   
                     photos.map((photo, index) => {
                         return (
-                            <View style={styles.item}>
+                            <View style={styles.item} key={index}>
                                 <Image
-                                key={index}
                                 source={{ uri: photo['uri'] }}
                                 style={styles.img} />
                                 <TouchableOpacity onPress={() => 
@@ -156,12 +113,7 @@ const ShowSelected = ({ route,props,  navigation }) => {
                 }}
                 mode="crop-only"
                 />
-                {//<TouchableOpacity onPress={() => { insertArticle }}>
-                }
                 <TouchableOpacity onPress={() => {predict()}}>
-                    <Text style={styles.button}>Test send data to server</Text>
-                </TouchableOpacity>
-                <TouchableOpacity onPress={() => navigation.navigate('Result')}>
                     <Text style={styles.button}>Submit</Text>
                 </TouchableOpacity>
             </View>

@@ -1,5 +1,5 @@
 import React, { useMemo } from 'react';
-import { Text, View, StyleSheet, Alert, Dimensions } from 'react-native';
+import { View, StyleSheet, Dimensions } from 'react-native';
 import { AssetsSelector } from 'expo-images-picker';
 import { Ionicons } from '@expo/vector-icons';
 import { MediaType } from 'expo-media-library';
@@ -13,7 +13,6 @@ const SelectPhotos = ({ navigation }) => {
       };
 
   const onSuccess = (data) => {
-    Alert.alert('Done',data.length + ' Images selected')
     navigation.navigate('ShowSelected', {
         photos: data
     });

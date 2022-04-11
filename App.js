@@ -1,8 +1,6 @@
-import React, { useState, useEffect } from 'react';
+import React from 'react';
 import AppLoading from 'expo-app-loading';
 import * as Font from 'expo-font';
-import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, View } from 'react-native';
 import Home from './pages/Home';
 import Result from './pages/Result';
 import SelectPhotos from './pages/SelectPhotos';
@@ -12,7 +10,7 @@ import Crop from './pages/Crop';
 import Enlarge from './pages/Enlarge';
 import ImgList from './pages/ImgList';
 import { NavigationContainer } from '@react-navigation/native';
-import { createStackNavigator, HeaderBackButton } from '@react-navigation/stack';
+import { createStackNavigator } from '@react-navigation/stack';
 
 
 const Stack = createStackNavigator();
@@ -50,14 +48,10 @@ export default class App extends React.Component {
 
     return (
       <NavigationContainer>
-        <Stack.Navigator back={{title: 'Back'}}
-          //screenOptions={{
-            //headerShown: false
-          //}}
-        >
+        <Stack.Navigator back={{title: 'Back'}}>
           <Stack.Screen name="Home" component={Home} options={{headerShown: false}} />
-          <Stack.Screen name="TakePhoto" component={TakePhoto} options={{headerShown: false}} />
           <Stack.Screen name="SelectPhotos" component={SelectPhotos} options={{headerShown: false, title: 'Upload Photos', headerBackTitle: 'back' }} />
+          <Stack.Screen name="TakePhoto" component={TakePhoto} options={{headerShown: false}} />
           <Stack.Screen name="ShowSelected" component={ShowSelected} options={{title: 'Selected Photos', headerBackTitle: 'back'}} />
           <Stack.Screen name="Crop" component={Crop} options={{title: 'Crop Photo', headerBackTitle: 'back'}} />
           <Stack.Screen name="Result" component={Result} options={{title: 'Result', headerBackTitle: 'back' }} />
