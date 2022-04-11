@@ -1,10 +1,8 @@
 import  { Camera } from 'expo-camera';
-import { Text, View, StyleSheet, Dimensions, TouchableOpacity } from 'react-native';
+import { Text, View, StyleSheet, TouchableOpacity } from 'react-native';
 import React, { useState, useEffect } from 'react';
 
-let imageUri = ''
-let imageBase64 = ''
-let margin = Dimensions.get('screen').width * 0.0065
+let imageData = []
 
 const TakePhoto = ({ navigation }) => {
     const [hasPermission, setHasPermission] = useState(null);
@@ -18,19 +16,6 @@ const TakePhoto = ({ navigation }) => {
         setHasPermission(status === 'granted');
         })();
     }, []);
-
-    const takePicture = async () => {
-        if (camera) {
-            const data = await camera.takePictureAsync({ base64: true });
-            console.log(data.height);
-            //console.log(data.base64);
-            imageUri = data.uri;
-            imageBase64 = data.base64;
-            //console.log(imageUri)
-            //console.log(imageBase64)
-            //navigation.navigate('ShowSelected', { photos: data })
-        }
-     };
 
     if (hasPermission === null) {
         return <View />;
@@ -50,10 +35,12 @@ const TakePhoto = ({ navigation }) => {
             }}>
                 <Text style={styles.text}> Back </Text>
             </TouchableOpacity>
-            <TouchableOpacity style={styles.snapbutton} onPress={() => {
-                takePicture()
-                //console.log(uri)
-                //console.log(base64)
+            <TouchableOpacity style={styles.snapbutton} onPress={ async () => {
+                if (camera) {
+                    const data = await camera.takePictureAsync({ base64: true });
+                    imageData.push(data)
+                    navigation.navigate('ShowSelected', { photos: imageData })
+                }
             }}>
                 <Text style={styles.text}> Snap </Text>
             </TouchableOpacity>
