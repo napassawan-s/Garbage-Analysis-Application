@@ -3,16 +3,25 @@ import { Text, View, StyleSheet, Alert, Dimensions, TouchableOpacity, Image, But
 import APIServices from '../components/APIServices'
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import { ImageEditor } from "expo-image-editor";
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
+import * as FS from 'expo-file-system';
+//import { ImageManipulator } from 'expo';
+
 
 const BUTTON_SIZE = 30
 const BORDER_WIDTH = 1
 
+let croppedB64 = ''
 let height = Dimensions.get('screen').width * 0.32
 let margin = Dimensions.get('screen').width * 0.0065
 
 const ShowSelected = ({ route,props,  navigation }) => {
     let photos = route.params.photos;
+
+    const [imageUri, setImageUri] = useState(undefined);
+    const [editorVisible, setEditorVisible] = useState(false);
+    const [croppedUri, setCroppedUri] = useState('');
+
     let items = [{
         uniqueId: 'Glass',
         title: 'Glass',
@@ -31,12 +40,21 @@ const ShowSelected = ({ route,props,  navigation }) => {
         pic: [{width: 200,height: 300,uri:'https://picsum.photos/id/237/400/300'}]
     },]
 
-    /*uriToBase64 = async (uri) => {
+    const uriToBase64 = async (original,uri) => {
         let base64 = await FS.readAsStringAsync(uri, {
             encoding: FS.EncodingType.Base64,
         });
-        return base64;
-    };*/
+        //setCroppedUri(base64);
+        //setUri(original,base64)
+        croppedB64 = base64;
+        console.log(croppedB64)
+    };
+
+    /*const toBase64 = async (uri) => {
+        let response = await ImageManipulator.manipulateAsync(uri, [], { base64: true })
+        console.log('base64res' + JSON.stringify(response));
+        return response;
+    }*/
 
     const predict = () => {
         /*photos.map((photo) => {
@@ -52,9 +70,6 @@ const ShowSelected = ({ route,props,  navigation }) => {
         
     }
 
-    const [imageUri, setImageUri] = useState(undefined);
-    const [editorVisible, setEditorVisible] = useState(false);
-
     const selectPhoto = async (photo) => {
         launchEditor(photo);
     };
@@ -64,15 +79,38 @@ const ShowSelected = ({ route,props,  navigation }) => {
         setEditorVisible(true);
     };
 
-    const insertCropped = (oguri,cropped) => {
-        photos.forEach((photo) => {
-            if(oguri == photo['uri']) {
+    const insertCropped = async (originalUri,cropped) => {
+        photos.forEach(async (photo) => {
+            if(originalUri == photo['uri']) {
                 photo['uri'] = cropped
-                console.log('replaced')
+                //console.log('replaced')
+                console.log('uri ja  '+originalUri+'\n\nbase ja   '+JSON.stringify(photo['base64']))
+                //console.log(cropped)
+                let base64 = await FS.readAsStringAsync(cropped, {
+                    encoding: FS.EncodingType.Base64,
+                });
+                //uriToBase64(originalUri,cropped)
+                photo['base64'] = base64
+                console.log('base64res' + JSON.stringify(photo['base64']));
+                //console.log('\nbase ja2  '+JSON.stringify(photo['base64']))
+                /*console.log('changed base ja')
+                console.log(photo['base64'])*/
             }
-
         })
     }
+
+    /*useEffect(() => {
+        console.log('god');
+    }, [croppedUri]);
+
+    const setUri = (originalUri) => {
+        photos.forEach((photo) => {
+            if(originalUri == photo['uri']) {
+                photo['base64'] = croppedUri
+                console.log('cropped uri'+croppedUri)
+            }
+        })
+    }*/
 
     return (
         <View style={styles.container}>
@@ -113,6 +151,7 @@ const ShowSelected = ({ route,props,  navigation }) => {
                     console.log('result: '+result['uri'])
                     console.log('og: '+imageUri)
                     insertCropped(imageUri, result['uri'])
+                    console.log(croppedB64)
                     console.log('done cropping eiei')
                 }}
                 mode="crop-only"
