@@ -14,9 +14,8 @@ let croppedB64 = ''
 let height = Dimensions.get('screen').width * 0.32
 let margin = Dimensions.get('screen').width * 0.0065
 
-const ShowSelected = ({ route,props,  navigation }) => {
-    let photos = route.params.photos;
-
+const ShowSelected = ({ route, navigation }) => {
+    const [photos, setPhotos] = useState(route.params.photos);
     const [imageUri, setImageUri] = useState(undefined);
     const [editorVisible, setEditorVisible] = useState(false);
 
@@ -59,13 +58,15 @@ const ShowSelected = ({ route,props,  navigation }) => {
     };
 
     const insertCropped = async (originalUri,cropped) => {
-        photos.forEach(async (photo) => {
+        const newPhotos = photos
+        newPhotos.forEach(async (photo) => {
             if(originalUri == photo['uri']) {
                 photo['uri'] = cropped
                 let base64 = await FS.readAsStringAsync(cropped, {
                     encoding: FS.EncodingType.Base64,
                 });
                 photo['base64'] = base64
+                setPhotos(newPhotos)
             }
         })
     }
@@ -89,7 +90,8 @@ const ShowSelected = ({ route,props,  navigation }) => {
                                 </TouchableOpacity>
                                 <TouchableOpacity onPress={() => 
                                 {
-                                    photos.splice(index,1)
+                                    const newPhotos = photos.filter((image) => image['uri'] !== photo['uri']);
+                                    setPhotos(newPhotos)
                                 }} 
                                 style={styles.removebutton}>
                                     <Icon name={'close-thick'} color={'red'} size={BUTTON_SIZE/2} />
