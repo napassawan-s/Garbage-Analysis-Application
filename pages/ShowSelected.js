@@ -7,7 +7,7 @@ import { useState } from 'react';
 import * as FS from 'expo-file-system';
 
 
-const BUTTON_SIZE = 30
+const BUTTON_SIZE = 25
 const BORDER_WIDTH = 1
 
 let croppedB64 = ''
@@ -86,6 +86,13 @@ const ShowSelected = ({ route,props,  navigation }) => {
                                 }} 
                                 style={styles.cropbutton}>
                                     <Icon name={'crop'} color={'grey'} size={BUTTON_SIZE/2} />
+                                </TouchableOpacity>
+                                <TouchableOpacity onPress={() => 
+                                {
+                                    photos.splice(index,1)
+                                }} 
+                                style={styles.removebutton}>
+                                    <Icon name={'close-thick'} color={'red'} size={BUTTON_SIZE/2} />
                                 </TouchableOpacity>
                             </View>
                             
@@ -176,7 +183,20 @@ const styles = StyleSheet.create({
         height:BUTTON_SIZE+BORDER_WIDTH,
         borderWidth:BORDER_WIDTH,
         borderRadius:BUTTON_SIZE/2,
-    }
+    },
+    removebutton:{
+        justifyContent:'center',
+        position: 'absolute',
+        alignItems:'center',
+        right: 0,
+        top: 0,
+        backgroundColor: 'white',
+        borderColor: 'transparent',
+        width:BUTTON_SIZE+BORDER_WIDTH,
+        height:BUTTON_SIZE+BORDER_WIDTH,
+        borderWidth:BORDER_WIDTH,
+        borderRadius:BUTTON_SIZE/2,
+    },
 });
 
 export default ShowSelected;
