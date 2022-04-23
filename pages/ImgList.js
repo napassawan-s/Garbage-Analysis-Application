@@ -15,7 +15,6 @@ const ImgList = ({ route, navigation }) => {
                         return (
                             <TouchableOpacity key={index} onPress={()=>navigation.navigate('Enlarge', {pic: photo['uri']})}>
                                 <Image
-                                    
                                     source={{ uri: photo['uri'] }}
                                     style={styles.img} />
                             </TouchableOpacity>

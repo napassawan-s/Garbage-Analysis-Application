@@ -4,11 +4,11 @@ import React, { useState, useEffect } from 'react';
 
 let imageData = []
 
-const TakePhoto = ({ navigation }) => {
+const TakePhoto = ({ route, navigation }) => {
     const [hasPermission, setHasPermission] = useState(null);
     const [type, setType] = useState(Camera.Constants.Type.back);
     const [camera, setCamera] = useState(null);
-
+    const photo = route.params.photos;
 
     useEffect(() => {
         (async () => {
@@ -38,8 +38,12 @@ const TakePhoto = ({ navigation }) => {
             <TouchableOpacity style={styles.snapbutton} onPress={ async () => {
                 if (camera) {
                     const data = await camera.takePictureAsync({ base64: true });
-                    imageData.push(data)
-                    navigation.navigate('ShowSelected', { photos: imageData })
+                    if(photo.length != 0 || photo.length != null){
+                      navigation.navigate('ShowSelected', { photos: photo.push(data) })
+                    }else{
+                      imageData.push(data)
+                      navigation.navigate('ShowSelected', { photos: imageData })
+                    }
                 }
             }}>
                 <Text style={styles.text}> Snap </Text>

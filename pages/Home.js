@@ -26,10 +26,11 @@ const styles = StyleSheet.create({
     title: {
         fontFamily: 'Montserrat-Bold',
         fontSize: 20,
-        fontWeight: 'bold'
+        fontWeight: 'bold',
+        marginBottom: 20
     },
     button: {
-        margin: 30,
+        margin: 25,
         backgroundColor: '#67E0B4',
         fontFamily: 'Montserrat-Medium',
         fontSize: 17,

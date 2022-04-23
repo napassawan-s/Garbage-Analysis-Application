@@ -22,30 +22,30 @@ const ShowSelected = ({ route, navigation }) => {
     let items = [{
         uniqueId: 'Glass',
         title: 'Glass',
-        pic: [{width: 200,height: 300,uri:'https://picsum.photos/id/237/400/300'}]
+        pic: [{ width: 200, height: 300, uri: 'https://picsum.photos/id/237/400/300' }]
     }, {
         uniqueId: 'Metal',
         title: 'Metal',
-        pic: [{width: 200,height: 300,uri:'https://picsum.photos/id/237/400/300'}]
+        pic: [{ width: 200, height: 300, uri: 'https://picsum.photos/id/237/400/300' }]
     }, {
         uniqueId: 'Paper',
         title: 'Paper',
-        pic: [{width: 200,height: 300,uri:'https://picsum.photos/id/237/400/300'}]
+        pic: [{ width: 200, height: 300, uri: 'https://picsum.photos/id/237/400/300' }]
     }, {
         uniqueId: 'Plastic',
         title: 'Plastic',
-        pic: [{width: 200,height: 300,uri:'https://picsum.photos/id/237/400/300'}]
+        pic: [{ width: 200, height: 300, uri: 'https://picsum.photos/id/237/400/300' }]
     },]
 
     const predict = () => {
-        APIServices.InsertArticle(photos)
+        APIServices.Predict(photos)
             .then((response) => {
                 console.log(response)
-                navigation.navigate('Result', {result:response})
+                navigation.navigate('Result', { result: response })
             })
             .catch(error => console.log('error', error))
 
-        
+
     }
 
     const selectPhoto = async (photo) => {
@@ -57,10 +57,10 @@ const ShowSelected = ({ route, navigation }) => {
         setEditorVisible(true);
     };
 
-    const insertCropped = async (originalUri,cropped) => {
+    const insertCropped = async (originalUri, cropped) => {
         const newPhotos = photos
         newPhotos.forEach(async (photo) => {
-            if(originalUri == photo['uri']) {
+            if (originalUri == photo['uri']) {
                 photo['uri'] = cropped
                 let base64 = await FS.readAsStringAsync(cropped, {
                     encoding: FS.EncodingType.Base64,
@@ -74,57 +74,60 @@ const ShowSelected = ({ route, navigation }) => {
     return (
         <View style={styles.container}>
             <View style={styles.listContainer}>
-                {   
+                {
                     photos.map((photo, index) => {
                         return (
                             <View style={styles.item} key={index}>
                                 <Image
-                                source={{ uri: photo['uri'] }}
-                                style={styles.img} />
-                                <TouchableOpacity onPress={() => 
-                                {
+                                    source={{ uri: photo['uri'] }}
+                                    style={styles.img} />
+                                <TouchableOpacity onPress={() => {
                                     selectPhoto(photo['uri'])
-                                }} 
-                                style={styles.cropbutton}>
-                                    <Icon name={'crop'} color={'grey'} size={BUTTON_SIZE/2} />
+                                }}
+                                    style={styles.cropbutton}>
+                                    <Icon name={'crop'} color={'grey'} size={BUTTON_SIZE / 2} />
                                 </TouchableOpacity>
-                                <TouchableOpacity onPress={() => 
-                                {
+                                <TouchableOpacity onPress={() => {
                                     const newPhotos = photos.filter((image) => image['uri'] !== photo['uri']);
                                     setPhotos(newPhotos)
-                                }} 
-                                style={styles.removebutton}>
-                                    <Icon name={'close-thick'} color={'red'} size={BUTTON_SIZE/2} />
+                                }}
+                                    style={styles.removebutton}>
+                                    <Icon name={'close-thick'} color={'red'} size={BUTTON_SIZE / 2} />
                                 </TouchableOpacity>
                             </View>
-                            
+
                         )
                     })
                 }
             </View>
             <View>
                 <ImageEditor
-                visible={editorVisible}
-                onCloseEditor={() => setEditorVisible(false)}
-                imageUri={imageUri}
-                fixedCropAspectRatio={16 / 9}
-                lockAspectRatio={false}
-                minimumCropDimensions={{
-                    width: 100,
-                    height: 100,
-                }}
-                onEditingComplete={(result) => {
-                    console.log('result: '+result['uri'])
-                    console.log('og: '+imageUri)
-                    insertCropped(imageUri, result['uri'])
-                    console.log(croppedB64)
-                    console.log('done cropping eiei')
-                }}
-                mode="crop-only"
+                    visible={editorVisible}
+                    onCloseEditor={() => setEditorVisible(false)}
+                    imageUri={imageUri}
+                    fixedCropAspectRatio={16 / 9}
+                    lockAspectRatio={false}
+                    minimumCropDimensions={{
+                        width: 100,
+                        height: 100,
+                    }}
+                    onEditingComplete={(result) => {
+                        console.log('result: ' + result['uri'])
+                        console.log('og: ' + imageUri)
+                        insertCropped(imageUri, result['uri'])
+                        console.log(croppedB64)
+                        console.log('done cropping eiei')
+                    }}
+                    mode="crop-only"
                 />
-                <TouchableOpacity onPress={() => {predict()}}>
-                    <Text style={styles.button}>Submit</Text>
-                </TouchableOpacity>
+                <View style={styles.buttonContainer}>
+                    <TouchableOpacity onPress={() => navigation.navigate('TakePhoto', { photos: photos })}>
+                        <Text style={styles.camera} >Camera</Text>
+                    </TouchableOpacity>
+                    <TouchableOpacity onPress={() => { predict() }}>
+                        <Text style={styles.button}>Submit</Text>
+                    </TouchableOpacity>
+                </View>
             </View>
         </View>
 
@@ -144,7 +147,6 @@ const styles = StyleSheet.create({
         fontSize: 26
     },
     button: {
-        margin: 30,
         backgroundColor: '#67E0B4',
         fontFamily: 'Montserrat-Medium',
         fontSize: 17,
@@ -155,12 +157,32 @@ const styles = StyleSheet.create({
         lineHeight: 40,
         textAlign: 'center',
         overflow: 'hidden',
-        marginBottom: 50,
+        marginBottom: 20,
+        alignSelf: 'center'
+    },
+    buttonContainer: {
+        margin: 30,
+        marginBottom: 50
+    },
+    camera: {
+        backgroundColor: '#ffffff',
+        borderColor: '#67E0B4',
+        borderWidth: 1,
+        fontFamily: 'Montserrat-Medium',
+        fontSize: 17,
+        color: '#67E0B4',
+        width: 300,
+        height: 40,
+        borderRadius: 10,
+        lineHeight: 40,
+        textAlign: 'center',
+        overflow: 'hidden',
+        marginBottom: 20,
         alignSelf: 'center'
     },
     img: {
         height: height,
-        
+
     },
     listContainer: {
         flex: 1,
@@ -175,29 +197,29 @@ const styles = StyleSheet.create({
         width: '32%',
         margin: margin,
     },
-    cropbutton:{
-        justifyContent:'center',
+    cropbutton: {
+        justifyContent: 'center',
         position: 'absolute',
-        alignItems:'center',
+        alignItems: 'center',
         backgroundColor: 'white',
         borderColor: 'transparent',
-        width:BUTTON_SIZE+BORDER_WIDTH,
-        height:BUTTON_SIZE+BORDER_WIDTH,
-        borderWidth:BORDER_WIDTH,
-        borderRadius:BUTTON_SIZE/2,
+        width: BUTTON_SIZE + BORDER_WIDTH,
+        height: BUTTON_SIZE + BORDER_WIDTH,
+        borderWidth: BORDER_WIDTH,
+        borderRadius: BUTTON_SIZE / 2,
     },
-    removebutton:{
-        justifyContent:'center',
+    removebutton: {
+        justifyContent: 'center',
         position: 'absolute',
-        alignItems:'center',
+        alignItems: 'center',
         right: 0,
         top: 0,
         backgroundColor: 'white',
         borderColor: 'transparent',
-        width:BUTTON_SIZE+BORDER_WIDTH,
-        height:BUTTON_SIZE+BORDER_WIDTH,
-        borderWidth:BORDER_WIDTH,
-        borderRadius:BUTTON_SIZE/2,
+        width: BUTTON_SIZE + BORDER_WIDTH,
+        height: BUTTON_SIZE + BORDER_WIDTH,
+        borderWidth: BORDER_WIDTH,
+        borderRadius: BUTTON_SIZE / 2,
     },
 });
 
