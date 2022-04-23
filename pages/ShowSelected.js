@@ -18,7 +18,7 @@ const ShowSelected = ({ route, navigation }) => {
     const [photos, setPhotos] = useState(route.params.photos);
     const [imageUri, setImageUri] = useState(undefined);
     const [editorVisible, setEditorVisible] = useState(false);
-
+    
     let items = [{
         uniqueId: 'Glass',
         title: 'Glass',
@@ -40,7 +40,7 @@ const ShowSelected = ({ route, navigation }) => {
     const predict = () => {
         APIServices.Predict(photos)
             .then((response) => {
-                console.log(response)
+                //console.log(response)
                 navigation.navigate('Result', { result: response })
             })
             .catch(error => console.log('error', error))
