@@ -18,24 +18,6 @@ const ShowSelected = ({ route, navigation }) => {
     const [photos, setPhotos] = useState(route.params.photos);
     const [imageUri, setImageUri] = useState(undefined);
     const [editorVisible, setEditorVisible] = useState(false);
-    
-    let items = [{
-        uniqueId: 'Glass',
-        title: 'Glass',
-        pic: [{ width: 200, height: 300, uri: 'https://picsum.photos/id/237/400/300' }]
-    }, {
-        uniqueId: 'Metal',
-        title: 'Metal',
-        pic: [{ width: 200, height: 300, uri: 'https://picsum.photos/id/237/400/300' }]
-    }, {
-        uniqueId: 'Paper',
-        title: 'Paper',
-        pic: [{ width: 200, height: 300, uri: 'https://picsum.photos/id/237/400/300' }]
-    }, {
-        uniqueId: 'Plastic',
-        title: 'Plastic',
-        pic: [{ width: 200, height: 300, uri: 'https://picsum.photos/id/237/400/300' }]
-    },]
 
     const predict = () => {
         APIServices.Predict(photos)
@@ -44,8 +26,6 @@ const ShowSelected = ({ route, navigation }) => {
                 navigation.navigate('Result', { result: response })
             })
             .catch(error => console.log('error', error))
-
-
     }
 
     const selectPhoto = async (photo) => {
